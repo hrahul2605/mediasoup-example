@@ -5,14 +5,12 @@ interface webRtcTransportOptions extends types.WebRtcTransportOptions {
 }
 
 const config: {
-  port: number;
   mediasoup: {
     workerSettings: types.WorkerSettings;
     routerOptions: types.RouterOptions;
     webRtcTransportOptions: webRtcTransportOptions;
   };
 } = {
-  port: 3000,
   mediasoup: {
     // mediasoup WorkerSettings.
     // See https://mediasoup.org/documentation/v3/mediasoup/api/#WorkerSettings

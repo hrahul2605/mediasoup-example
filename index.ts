@@ -15,10 +15,11 @@ let router: types.Router;
 const app = express();
 app.use(express.json());
 app.use(express.static(__dirname));
+const PORT = process.env.PORT || 5000;
 
 const httpServer = createServer(app);
-httpServer.listen(config.port, () => {
-  console.log(`Server Started at PORT:${config.port}`);
+httpServer.listen(PORT, () => {
+  console.log(`Server Started at PORT:${PORT}`);
 });
 
 const io = new Server(httpServer, {
