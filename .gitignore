@@ -1,1 +1,4 @@
 node_modules
+app-bundle.js
+config.js
+index.js
