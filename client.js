@@ -81,7 +81,7 @@ const shareWebcam = async () => {
 
   try {
     stream = await getMedia();
-    const track = stream.getTracks()[0];
+    const track = stream.getVideoTracks()[0];
     const params = { track };
     producer = await transport.produce(params);
   } catch (err) {}
@@ -100,29 +100,24 @@ const join = async () => {
       .then(cb)
       .catch(eb);
   });
-  let stream;
+  let remoteStream = new MediaStream();
 
   transport.on("connectionstatechange", async (state) => {
     if (state === "connected") {
-      document.querySelector("#remoteVideo").srcObject = stream;
-      await socket.request("resume");
+      document.querySelector("#remoteVideo").srcObject = remoteStream;
     }
   });
 
-  stream = await consume(transport);
-};
-
-async function consume(transport) {
   const { rtpCapabilities } = mediasoupDevice;
-  const data = await socket.request("consume", { rtpCapabilities });
-  const { producerId, consumerId, kind, rtpParameters } = data;
+  const consumeData = await socket.request("consume", { rtpCapabilities });
+  const { producerId, consumerId, kind, rtpParameters } = consumeData;
   const consumer = await transport.consume({
     id: consumerId,
     producerId: producerId,
     kind,
     rtpParameters,
   });
-  const stream = new MediaStream();
-  stream.addTrack(consumer.track);
-  return stream;
-}
+  console.log(consumer.track);
+  remoteStream.addTrack(consumer.track);
+  await socket.request("resume");
+};

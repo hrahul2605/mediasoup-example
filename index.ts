@@ -80,7 +80,7 @@ io.on("connection", (socket) => {
       consumer = await consumerTransport.consume({
         producerId: producer.id,
         rtpCapabilities: args.rtpCapabilities,
-        paused: true,
+        paused: false,
       });
 
       cb({
