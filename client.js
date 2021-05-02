@@ -119,5 +119,5 @@ const join = async () => {
   });
   console.log(consumer.track);
   remoteStream.addTrack(consumer.track);
-  await socket.request("resume");
+  await socket.request("resumeConsumer");
 };
